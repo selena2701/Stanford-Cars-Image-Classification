@@ -335,6 +335,137 @@ def render_sample_gallery(class_name: str, num_images: int = 6):
         except Exception as exc:
             col.warning(f"Unable to display {path}: {exc}")
 
+
+def create_f1_score_chart(report_df: pd.DataFrame) -> alt.Chart:
+    """Create interactive F1 score chart from classification report"""
+    if report_df.empty or 'f1-score' not in report_df.columns:
+        return None
+    
+    top_k = 30
+    chart_df = report_df.sort_values('f1-score', ascending=False).head(top_k)
+    
+    chart = (
+        alt.Chart(chart_df)
+        .mark_bar(
+            color=CHART_COLORS['secondary'],
+            cornerRadiusTopLeft=3,
+            cornerRadiusTopRight=3,
+        )
+        .encode(
+            x=alt.X('f1-score:Q', title='F1 Score', scale=alt.Scale(domain=[0, 1])),
+            y=alt.Y('class_name:N', sort='-x', title='Car Class'),
+            tooltip=[
+                alt.Tooltip('class_name:N', title='Class'),
+                alt.Tooltip('f1-score:Q', title='F1 Score', format='.3f'),
+                alt.Tooltip('precision:Q', title='Precision', format='.3f'),
+                alt.Tooltip('recall:Q', title='Recall', format='.3f'),
+            ],
+        )
+        .properties(height=600, title=f'Top {top_k} Classes by F1 Score')
+        .configure_axis(grid=True, gridOpacity=0.2)
+    )
+    return chart
+
+
+def create_confusion_matrix_chart(report_df: pd.DataFrame) -> alt.Chart:
+    """Create interactive confusion matrix heatmap from classification report"""
+    if report_df.empty or 'support' not in report_df.columns:
+        return None
+    
+    top_k = 15
+    top_classes = report_df.nlargest(top_k, 'support')
+    
+    chart = (
+        alt.Chart(top_classes)
+        .mark_bar(
+            color=CHART_COLORS['accent'],
+            cornerRadiusTopLeft=3,
+            cornerRadiusTopRight=3,
+        )
+        .encode(
+            x=alt.X('support:Q', title='Number of Samples'),
+            y=alt.Y('class_name:N', sort='-x', title='Car Class'),
+            tooltip=[
+                alt.Tooltip('class_name:N', title='Class'),
+                alt.Tooltip('support:Q', title='Support', format='.0f'),
+                alt.Tooltip('precision:Q', title='Precision', format='.3f'),
+                alt.Tooltip('recall:Q', title='Recall', format='.3f'),
+            ],
+        )
+        .properties(height=400, title=f'Sample Distribution - Top {top_k} Classes')
+        .configure_axis(grid=True, gridOpacity=0.2)
+    )
+    return chart
+
+
+def create_class_distribution_chart(train_df: pd.DataFrame) -> alt.Chart:
+    """Create interactive class distribution chart"""
+    if train_df.empty:
+        return None
+    
+    top_k = 30
+    class_counts = train_df['class_name'].value_counts().head(top_k).reset_index()
+    class_counts.columns = ['class_name', 'count']
+    
+    chart = (
+        alt.Chart(class_counts)
+        .mark_bar(
+            color=CHART_COLORS['primary'],
+            cornerRadiusTopLeft=3,
+            cornerRadiusTopRight=3,
+        )
+        .encode(
+            x=alt.X('count:Q', title='Number of Training Images'),
+            y=alt.Y('class_name:N', sort='-x', title='Car Class'),
+            tooltip=[
+                alt.Tooltip('class_name:N', title='Class'),
+                alt.Tooltip('count:Q', title='Images', format='.0f'),
+            ],
+        )
+        .properties(height=600, title=f'Top {top_k} Classes by Training Sample Count')
+        .configure_axis(grid=True, gridOpacity=0.2)
+    )
+    return chart
+
+
+def analyze_class_balance(train_df: pd.DataFrame) -> Dict[str, any]:
+    """Analyze dataset class balance/imbalance"""
+    if train_df.empty:
+        return {}
+    
+    class_counts = train_df['class_name'].value_counts()
+    
+    total_samples = len(train_df)
+    num_classes = len(class_counts)
+    
+    mean_samples = class_counts.mean()
+    std_samples = class_counts.std()
+    min_samples = class_counts.min()
+    max_samples = class_counts.max()
+    median_samples = class_counts.median()
+    
+    imbalance_ratio = max_samples / min_samples if min_samples > 0 else 0
+    
+    cv = std_samples / mean_samples if mean_samples > 0 else 0
+    
+    imbalanced_threshold = mean_samples * 0.5
+    imbalanced_classes = (class_counts < imbalanced_threshold).sum()
+    imbalance_percentage = (imbalanced_classes / num_classes * 100) if num_classes > 0 else 0
+    
+    return {
+        'total_samples': total_samples,
+        'num_classes': num_classes,
+        'mean_samples': mean_samples,
+        'std_samples': std_samples,
+        'min_samples': min_samples,
+        'max_samples': max_samples,
+        'median_samples': median_samples,
+        'imbalance_ratio': imbalance_ratio,
+        'coefficient_variation': cv,
+        'imbalanced_classes': imbalanced_classes,
+        'imbalance_percentage': imbalance_percentage,
+    }
+
 st.title('Stanford Cars Classifier')
 st.markdown(
     """
@@ -391,18 +522,19 @@ with st.expander("Key Statistics Overview", expanded=True):
     col_a, col_b = st.columns(2, gap="medium")
     with col_a:
         with st.container(border=True, height="stretch"):
-            display_image_if_exists(
-                CLASS_DISTRIBUTION_IMG,
-                "Class Distribution Heatmap",
-                help_text="Distribution across classes.",
-            )
+            class_dist_chart = create_class_distribution_chart(train_df)
+            if class_dist_chart:
+                st.altair_chart(class_dist_chart, use_container_width=True)
+            else:
+                st.info("Class distribution data not available.")
     with col_b:
         with st.container(border=True, height="stretch"):
-            display_image_if_exists(
-                F1_PER_CLASS_IMG,
-                "Per-class F1 Score",
-                help_text="Performance spread by class.",
-            )
+            report_df = load_classification_report_df()
+            f1_chart = create_f1_score_chart(report_df)
+            if f1_chart:
+                st.altair_chart(f1_chart, use_container_width=True)
+            else:
+                st.info("F1 score data not available.")
 
 with st.expander("Key Process"):
     st.caption("How raw images become reliable fine-grained car predictions.")
@@ -664,6 +796,80 @@ with st.expander("Exploratory Data Analysis"):
             num_images = st.slider("Number of images to preview", min_value=3, max_value=12, value=6, step=3)
             render_sample_gallery(class_choice, num_images=num_images)
 
+with st.expander("Dataset Balance Analysis"):
+    st.caption("Assessment of class distribution balance and potential imbalance issues.")
+    
+    train_df_balance = load_annotations_df('train')
+    if not train_df_balance.empty:
+        balance_stats = analyze_class_balance(train_df_balance)
+        
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric(
+                "Total Images",
+                f"{balance_stats['total_samples']:,}",
+                help="Total training images"
+            )
+        with col2:
+            st.metric(
+                "Total Classes",
+                f"{balance_stats['num_classes']}",
+                help="Number of unique classes"
+            )
+        with col3:
+            st.metric(
+                "Avg Samples/Class",
+                f"{balance_stats['mean_samples']:.1f}",
+                help="Mean samples per class"
+            )
+        with col4:
+            st.metric(
+                "Imbalance Ratio",
+                f"{balance_stats['imbalance_ratio']:.2f}x",
+                help="Max samples / Min samples"
+            )
+        
+        st.divider()
+        
+        col1, col2 = st.columns([2, 1], gap="medium")
+        with col1:
+            st.markdown("### Distribution Statistics")
+            stats_text = f"""
+**Sample Count Statistics:**
+- **Min samples in class**: {balance_stats['min_samples']:.0f}
+- **Max samples in class**: {balance_stats['max_samples']:.0f}
+- **Median samples/class**: {balance_stats['median_samples']:.1f}
+- **Std deviation**: {balance_stats['std_samples']:.2f}
+- **Coefficient of Variation**: {balance_stats['coefficient_variation']:.3f}
+
+**Imbalance Assessment:**
+- **Classes below 50% mean**: {balance_stats['imbalanced_classes']} ({balance_stats['imbalance_percentage']:.1f}%)
+- **Imbalance Ratio**: {balance_stats['imbalance_ratio']:.2f}x
+            """
+            st.markdown(stats_text)
+        
+        with col2:
+            st.markdown("### Interpretation")
+            if balance_stats['imbalance_ratio'] < 1.5:
+                status = "🟢 **Well Balanced**"
+                desc = "Dataset is relatively balanced across classes."
+            elif balance_stats['imbalance_ratio'] < 3.0:
+                status = "🟡 **Moderately Imbalanced**"
+                desc = "Some classes have fewer samples but still acceptable."
+            else:
+                status = "🔴 **Significantly Imbalanced**"
+                desc = "Notable imbalance detected; consider weighted loss."
+            
+            st.markdown(f"{status}\n\n{desc}")
+            
+            if balance_stats['imbalance_ratio'] >= 1.5:
+                st.info(
+                    "💡 **Recommendation**: Using weighted loss function to handle class imbalance "
+                    "and ensure underrepresented classes contribute adequately to training."
+                )
+    else:
+        st.warning("Training data not available for balance analysis.")
+
 with st.expander("Classification"):
     st.caption("Model training pipeline, monitoring, and evaluation artifacts.")
 
@@ -721,7 +927,6 @@ with st.expander("Classification"):
             )
             st.altair_chart(chart, use_container_width=True)
             st.caption(f"Top {top_n} classes by number of training samples. Hover over bars for details.")
-            display_image_if_exists(CLASS_DISTRIBUTION_IMG, "Complete Class Distribution Heatmap")
         else:
             st.warning("Training data not available for distribution plot.")
 
@@ -889,8 +1094,19 @@ for epoch in range(num_epochs):
 
     with tab_visuals:
         st.subheader("Training Curves & Diagnostics")
-        display_image_if_exists(TRAINING_HISTORY_IMG, "Training & Validation Metrics")
-        display_image_if_exists(CONFUSION_MATRIX_IMG, "Confusion Matrix (Validation)")
+        
+        col1, col2 = st.columns(2, gap="medium")
+        with col1:
+            st.markdown("**Training History**")
+            display_image_if_exists(TRAINING_HISTORY_IMG, "Training & Validation Metrics")
+        
+        with col2:
+            st.markdown("**Confusion Matrix**")
+            confusion_chart = create_confusion_matrix_chart(report_df)
+            if confusion_chart:
+                st.altair_chart(confusion_chart, use_container_width=True)
+            else:
+                st.info("Confusion matrix data not available.")
 
     with tab_evaluation:
         st.subheader("Per-class Metrics")
