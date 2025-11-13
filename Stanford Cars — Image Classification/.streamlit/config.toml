@@ -1,0 +1,25 @@
+[theme]
+base = "dark"
+
+# General color setup - Matching reference style
+textColor = "#e2e8f0"
+primaryColor = "#60a5fa"  # Sky-500
+backgroundColor = "#1d293d"
+secondaryBackgroundColor = "#0f172b"
+
+# Widgets
+showWidgetBorder = true
+borderColor = "#314158"
+
+# Dataframes
+dataframeHeaderBackgroundColor = "#1d293d"
+
+# Base text
+font = "'Inter':https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+baseFontWeight = 400
+baseFontSize = 16
+
+# Heading text
+headingFont = "'Inter':https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap"
+headingFontWeights = [700, 600, 600]
+headingFontSizes = ["3rem", "2rem", "1.5rem"]
