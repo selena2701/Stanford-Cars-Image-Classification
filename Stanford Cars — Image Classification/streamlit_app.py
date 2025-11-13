@@ -738,6 +738,7 @@ with st.expander("Classification"):
             ]
         )
         total_images = split_df['Images'].sum()
+        split_df['Percent'] = 0.0
         if total_images > 0:
             split_df['Percent'] = (split_df['Images'] / total_images * 100).round(2)
         

@@ -206,13 +206,7 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# Model Training & Artifacts
-# Large model files and generated outputs
-artifacts/
-*.pth
-*.pt
-*.pkl
-*.pickle
+
 
 # Dataset (if large)
 **/dataset/
