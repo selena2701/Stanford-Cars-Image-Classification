@@ -208,11 +208,7 @@ __marimo__/
 
 
 
-# Dataset (if large)
-**/dataset/
-**/cars_train/
-**/cars_test/
-**/car_devkit/
+
 
 # Jupyter Notebook
 .ipynb_checkpoints/
