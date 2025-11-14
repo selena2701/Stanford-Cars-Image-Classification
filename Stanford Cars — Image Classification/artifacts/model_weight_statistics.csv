@@ -1,0 +1,323 @@
+Layer,Shape,Dtype,Params,Mean,Std,Min,Max
+backbone.conv1.weight,"torch.Size([64, 3, 7, 7])",torch.float32,9408,0.000727,0.250734,-3.207205,3.187646
+backbone.bn1.weight,torch.Size([64]),torch.float32,64,1.253059,1.817484,-0.455706,11.773618
+backbone.bn1.bias,torch.Size([64]),torch.float32,64,3.090369,5.310033,-3.022987,31.328213
+backbone.bn1.running_mean,torch.Size([64]),torch.float32,64,0.014905,0.802191,-2.798001,3.445809
+backbone.bn1.running_var,torch.Size([64]),torch.float32,64,50.228149,179.823425,1.835065,1072.556030
+backbone.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.0.conv1.weight,"torch.Size([64, 64, 1, 1])",torch.float32,4096,-0.013935,0.311577,-4.919404,1.829588
+backbone.layer1.0.bn1.weight,torch.Size([64]),torch.float32,64,0.841748,1.023851,0.012988,6.883042
+backbone.layer1.0.bn1.bias,torch.Size([64]),torch.float32,64,0.291854,2.354503,-2.619252,12.365445
+backbone.layer1.0.bn1.running_mean,torch.Size([64]),torch.float32,64,-0.780734,16.951878,-59.118557,47.853352
+backbone.layer1.0.bn1.running_var,torch.Size([64]),torch.float32,64,25.215708,67.014702,0.000000,404.685638
+backbone.layer1.0.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.0.conv2.weight,"torch.Size([64, 64, 3, 3])",torch.float32,36864,0.000733,0.194593,-2.283607,2.839372
+backbone.layer1.0.bn2.weight,torch.Size([64]),torch.float32,64,0.826158,1.532110,-0.000973,12.071405
+backbone.layer1.0.bn2.bias,torch.Size([64]),torch.float32,64,1.121351,4.860929,-3.479275,33.823532
+backbone.layer1.0.bn2.running_mean,torch.Size([64]),torch.float32,64,1.210947,9.714201,-24.236013,24.767761
+backbone.layer1.0.bn2.running_var,torch.Size([64]),torch.float32,64,62.562355,115.334320,0.000000,685.560791
+backbone.layer1.0.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.0.conv3.weight,"torch.Size([256, 64, 1, 1])",torch.float32,16384,-0.000206,0.186095,-1.399886,2.176672
+backbone.layer1.0.bn3.weight,torch.Size([256]),torch.float32,256,0.092704,2.080520,-3.502436,4.726630
+backbone.layer1.0.bn3.bias,torch.Size([256]),torch.float32,256,-0.180230,0.765565,-3.675731,3.219610
+backbone.layer1.0.bn3.running_mean,torch.Size([256]),torch.float32,256,0.774277,17.638189,-43.799370,77.480255
+backbone.layer1.0.bn3.running_var,torch.Size([256]),torch.float32,256,56.144226,96.387955,0.000000,748.054443
+backbone.layer1.0.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.0.downsample.0.weight,"torch.Size([256, 64, 1, 1])",torch.float32,16384,-0.014683,0.248433,-2.562711,4.448466
+backbone.layer1.0.downsample.1.weight,torch.Size([256]),torch.float32,256,2.095899,1.124925,0.016694,5.080049
+backbone.layer1.0.downsample.1.bias,torch.Size([256]),torch.float32,256,-0.180254,0.765531,-3.674826,3.219584
+backbone.layer1.0.downsample.1.running_mean,torch.Size([256]),torch.float32,256,-2.613780,13.468255,-41.356209,50.091549
+backbone.layer1.0.downsample.1.running_var,torch.Size([256]),torch.float32,256,49.509781,60.068050,0.000000,376.797577
+backbone.layer1.0.downsample.1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.1.conv1.weight,"torch.Size([64, 256, 1, 1])",torch.float32,16384,-0.005908,0.233536,-2.040689,2.101496
+backbone.layer1.1.bn1.weight,torch.Size([64]),torch.float32,64,0.906636,0.534311,0.187485,2.932230
+backbone.layer1.1.bn1.bias,torch.Size([64]),torch.float32,64,-0.361787,1.011824,-3.760498,1.685363
+backbone.layer1.1.bn1.running_mean,torch.Size([64]),torch.float32,64,-0.530609,3.580085,-11.410978,12.175525
+backbone.layer1.1.bn1.running_var,torch.Size([64]),torch.float32,64,12.054241,7.286756,0.772521,31.179235
+backbone.layer1.1.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.1.conv2.weight,"torch.Size([64, 64, 3, 3])",torch.float32,36864,-0.004631,0.243595,-2.353163,3.374158
+backbone.layer1.1.bn2.weight,torch.Size([64]),torch.float32,64,1.346087,0.562123,0.703601,3.277798
+backbone.layer1.1.bn2.bias,torch.Size([64]),torch.float32,64,0.426335,2.861544,-6.573252,7.420475
+backbone.layer1.1.bn2.running_mean,torch.Size([64]),torch.float32,64,-1.765779,4.332513,-20.793764,6.101112
+backbone.layer1.1.bn2.running_var,torch.Size([64]),torch.float32,64,13.335182,11.612360,1.628218,84.185181
+backbone.layer1.1.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.1.conv3.weight,"torch.Size([256, 64, 1, 1])",torch.float32,16384,-0.003347,0.246870,-1.795821,2.709736
+backbone.layer1.1.bn3.weight,torch.Size([256]),torch.float32,256,0.071645,0.592515,-1.589229,2.489479
+backbone.layer1.1.bn3.bias,torch.Size([256]),torch.float32,256,-0.228266,0.909719,-5.875674,1.595687
+backbone.layer1.1.bn3.running_mean,torch.Size([256]),torch.float32,256,0.064244,4.234559,-18.337675,14.247001
+backbone.layer1.1.bn3.running_var,torch.Size([256]),torch.float32,256,3.005410,1.443227,0.000000,9.743269
+backbone.layer1.1.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.2.conv1.weight,"torch.Size([64, 256, 1, 1])",torch.float32,16384,-0.015140,0.267087,-2.053766,1.606656
+backbone.layer1.2.bn1.weight,torch.Size([64]),torch.float32,64,1.755927,0.435475,0.432491,3.045796
+backbone.layer1.2.bn1.bias,torch.Size([64]),torch.float32,64,-0.315405,2.206107,-11.558787,6.083914
+backbone.layer1.2.bn1.running_mean,torch.Size([64]),torch.float32,64,-2.425356,3.270325,-7.894118,9.676721
+backbone.layer1.2.bn1.running_var,torch.Size([64]),torch.float32,64,11.339458,4.780954,0.000000,22.871761
+backbone.layer1.2.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.2.conv2.weight,"torch.Size([64, 64, 3, 3])",torch.float32,36864,-0.007023,0.248946,-2.017216,2.050488
+backbone.layer1.2.bn2.weight,torch.Size([64]),torch.float32,64,1.866562,0.755819,1.079438,6.226912
+backbone.layer1.2.bn2.bias,torch.Size([64]),torch.float32,64,0.444703,3.143381,-7.529753,9.049212
+backbone.layer1.2.bn2.running_mean,torch.Size([64]),torch.float32,64,-3.005218,5.286565,-15.595735,15.358131
+backbone.layer1.2.bn2.running_var,torch.Size([64]),torch.float32,64,61.489052,20.749126,26.749870,107.649498
+backbone.layer1.2.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer1.2.conv3.weight,"torch.Size([256, 64, 1, 1])",torch.float32,16384,-0.002904,0.239024,-1.583388,1.941998
+backbone.layer1.2.bn3.weight,torch.Size([256]),torch.float32,256,0.022412,0.778742,-2.786698,3.049614
+backbone.layer1.2.bn3.bias,torch.Size([256]),torch.float32,256,-0.252606,0.849219,-5.207048,1.379987
+backbone.layer1.2.bn3.running_mean,torch.Size([256]),torch.float32,256,-0.498151,5.033924,-15.365039,14.845987
+backbone.layer1.2.bn3.running_var,torch.Size([256]),torch.float32,256,8.464599,5.577556,0.000000,42.173439
+backbone.layer1.2.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.0.conv1.weight,"torch.Size([128, 256, 1, 1])",torch.float32,32768,-0.027932,0.280694,-2.610026,2.094578
+backbone.layer2.0.bn1.weight,torch.Size([128]),torch.float32,128,2.104513,0.419231,0.911636,3.003539
+backbone.layer2.0.bn1.bias,torch.Size([128]),torch.float32,128,-1.013919,1.053061,-4.208230,1.601038
+backbone.layer2.0.bn1.running_mean,torch.Size([128]),torch.float32,128,-4.243207,3.594491,-15.478662,9.545923
+backbone.layer2.0.bn1.running_var,torch.Size([128]),torch.float32,128,19.617836,6.503852,4.953613,33.420971
+backbone.layer2.0.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.0.conv2.weight,"torch.Size([128, 128, 3, 3])",torch.float32,147456,-0.004934,0.238546,-2.118035,2.128614
+backbone.layer2.0.bn2.weight,torch.Size([128]),torch.float32,128,1.993835,0.331672,1.285438,3.870702
+backbone.layer2.0.bn2.bias,torch.Size([128]),torch.float32,128,1.155029,2.939540,-5.423947,11.616201
+backbone.layer2.0.bn2.running_mean,torch.Size([128]),torch.float32,128,-2.803074,5.314153,-28.819149,10.526840
+backbone.layer2.0.bn2.running_var,torch.Size([128]),torch.float32,128,161.922882,62.891174,56.535278,366.288971
+backbone.layer2.0.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.0.conv3.weight,"torch.Size([512, 128, 1, 1])",torch.float32,65536,-0.000048,0.242582,-3.566009,2.738699
+backbone.layer2.0.bn3.weight,torch.Size([512]),torch.float32,512,0.008051,1.779441,-5.763329,6.890488
+backbone.layer2.0.bn3.bias,torch.Size([512]),torch.float32,512,-0.958922,1.390603,-13.146839,6.355051
+backbone.layer2.0.bn3.running_mean,torch.Size([512]),torch.float32,512,-0.788942,9.749346,-26.418287,35.546062
+backbone.layer2.0.bn3.running_var,torch.Size([512]),torch.float32,512,17.203421,8.131033,0.000000,61.463875
+backbone.layer2.0.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.0.downsample.0.weight,"torch.Size([512, 256, 1, 1])",torch.float32,131072,-0.013641,0.245476,-3.663880,4.007164
+backbone.layer2.0.downsample.1.weight,torch.Size([512]),torch.float32,512,1.823951,1.208594,-1.129347,7.436887
+backbone.layer2.0.downsample.1.bias,torch.Size([512]),torch.float32,512,0.576381,1.953077,-5.802604,11.582766
+backbone.layer2.0.downsample.1.running_mean,torch.Size([512]),torch.float32,512,-2.031312,4.616617,-15.401583,25.659004
+backbone.layer2.0.downsample.1.running_var,torch.Size([512]),torch.float32,512,11.535959,6.622497,0.000000,72.965675
+backbone.layer2.0.downsample.1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.1.conv1.weight,"torch.Size([128, 512, 1, 1])",torch.float32,65536,-0.013319,0.250968,-2.718923,3.402473
+backbone.layer2.1.bn1.weight,torch.Size([128]),torch.float32,128,1.385742,0.549645,0.631314,3.775645
+backbone.layer2.1.bn1.bias,torch.Size([128]),torch.float32,128,-0.553725,1.991657,-8.367111,5.115760
+backbone.layer2.1.bn1.running_mean,torch.Size([128]),torch.float32,128,-7.462210,13.443769,-56.229450,34.836300
+backbone.layer2.1.bn1.running_var,torch.Size([128]),torch.float32,128,211.790878,117.036392,57.258251,796.172913
+backbone.layer2.1.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.1.conv2.weight,"torch.Size([128, 128, 3, 3])",torch.float32,147456,-0.010173,0.244543,-2.646335,2.244190
+backbone.layer2.1.bn2.weight,torch.Size([128]),torch.float32,128,1.670396,0.550549,0.774208,4.549433
+backbone.layer2.1.bn2.bias,torch.Size([128]),torch.float32,128,-0.435444,1.955886,-7.222025,5.369660
+backbone.layer2.1.bn2.running_mean,torch.Size([128]),torch.float32,128,-2.394415,9.685420,-38.858822,32.111111
+backbone.layer2.1.bn2.running_var,torch.Size([128]),torch.float32,128,108.903290,50.055672,32.989307,338.787506
+backbone.layer2.1.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.1.conv3.weight,"torch.Size([512, 128, 1, 1])",torch.float32,65536,0.000756,0.244182,-3.265052,2.643874
+backbone.layer2.1.bn3.weight,torch.Size([512]),torch.float32,512,-0.100303,1.876855,-6.173822,5.331937
+backbone.layer2.1.bn3.bias,torch.Size([512]),torch.float32,512,-1.089095,1.819969,-10.970551,3.265211
+backbone.layer2.1.bn3.running_mean,torch.Size([512]),torch.float32,512,0.042379,3.418628,-12.075449,12.226388
+backbone.layer2.1.bn3.running_var,torch.Size([512]),torch.float32,512,7.235163,3.647351,0.049285,28.427786
+backbone.layer2.1.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.2.conv1.weight,"torch.Size([128, 512, 1, 1])",torch.float32,65536,-0.018242,0.254202,-2.384798,2.464757
+backbone.layer2.2.bn1.weight,torch.Size([128]),torch.float32,128,1.278494,0.348018,0.624336,3.822325
+backbone.layer2.2.bn1.bias,torch.Size([128]),torch.float32,128,-0.556178,1.297590,-8.656730,2.379469
+backbone.layer2.2.bn1.running_mean,torch.Size([128]),torch.float32,128,-11.213335,10.588138,-40.890869,13.667550
+backbone.layer2.2.bn1.running_var,torch.Size([128]),torch.float32,128,223.321075,78.167549,96.088036,420.068176
+backbone.layer2.2.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.2.conv2.weight,"torch.Size([128, 128, 3, 3])",torch.float32,147456,-0.009558,0.238624,-2.342560,2.311458
+backbone.layer2.2.bn2.weight,torch.Size([128]),torch.float32,128,2.053308,0.412446,1.088415,3.975650
+backbone.layer2.2.bn2.bias,torch.Size([128]),torch.float32,128,-0.241856,2.046222,-4.908597,8.595505
+backbone.layer2.2.bn2.running_mean,torch.Size([128]),torch.float32,128,-2.685023,5.428738,-21.482553,25.992796
+backbone.layer2.2.bn2.running_var,torch.Size([128]),torch.float32,128,83.427452,45.186264,29.927240,295.479004
+backbone.layer2.2.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.2.conv3.weight,"torch.Size([512, 128, 1, 1])",torch.float32,65536,-0.000212,0.230232,-2.900111,2.077422
+backbone.layer2.2.bn3.weight,torch.Size([512]),torch.float32,512,-0.105952,1.701149,-5.968069,4.584294
+backbone.layer2.2.bn3.bias,torch.Size([512]),torch.float32,512,-0.778682,1.346035,-6.459335,2.781734
+backbone.layer2.2.bn3.running_mean,torch.Size([512]),torch.float32,512,-0.043051,5.522815,-26.361305,17.591797
+backbone.layer2.2.bn3.running_var,torch.Size([512]),torch.float32,512,9.522764,3.863307,2.219216,30.367254
+backbone.layer2.2.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.3.conv1.weight,"torch.Size([128, 512, 1, 1])",torch.float32,65536,-0.015728,0.252717,-3.238277,3.355591
+backbone.layer2.3.bn1.weight,torch.Size([128]),torch.float32,128,1.794600,0.552127,0.885707,4.248163
+backbone.layer2.3.bn1.bias,torch.Size([128]),torch.float32,128,-1.114950,1.419546,-7.013939,2.423331
+backbone.layer2.3.bn1.running_mean,torch.Size([128]),torch.float32,128,-9.832230,11.774844,-37.500820,27.840067
+backbone.layer2.3.bn1.running_var,torch.Size([128]),torch.float32,128,212.689575,86.960899,67.567451,680.019226
+backbone.layer2.3.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.3.conv2.weight,"torch.Size([128, 128, 3, 3])",torch.float32,147456,-0.009476,0.229549,-2.820919,2.301238
+backbone.layer2.3.bn2.weight,torch.Size([128]),torch.float32,128,1.751889,0.765644,0.811398,5.691891
+backbone.layer2.3.bn2.bias,torch.Size([128]),torch.float32,128,-0.444432,1.747284,-5.570242,5.316617
+backbone.layer2.3.bn2.running_mean,torch.Size([128]),torch.float32,128,-3.945378,7.869700,-22.582319,27.714520
+backbone.layer2.3.bn2.running_var,torch.Size([128]),torch.float32,128,107.332626,47.377224,38.470928,309.637360
+backbone.layer2.3.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer2.3.conv3.weight,"torch.Size([512, 128, 1, 1])",torch.float32,65536,-0.000158,0.239418,-3.189491,3.653802
+backbone.layer2.3.bn3.weight,torch.Size([512]),torch.float32,512,-0.009986,1.705590,-4.743157,7.579587
+backbone.layer2.3.bn3.bias,torch.Size([512]),torch.float32,512,-0.980713,1.510782,-9.824410,2.646470
+backbone.layer2.3.bn3.running_mean,torch.Size([512]),torch.float32,512,0.195145,3.347345,-12.093903,12.178302
+backbone.layer2.3.bn3.running_var,torch.Size([512]),torch.float32,512,7.507861,5.625441,1.192052,67.424339
+backbone.layer2.3.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.0.conv1.weight,"torch.Size([256, 512, 1, 1])",torch.float32,131072,-0.012517,0.260397,-3.152921,2.271666
+backbone.layer3.0.bn1.weight,torch.Size([256]),torch.float32,256,2.018410,0.362407,1.339855,3.456508
+backbone.layer3.0.bn1.bias,torch.Size([256]),torch.float32,256,-1.506138,1.146078,-5.930851,2.230702
+backbone.layer3.0.bn1.running_mean,torch.Size([256]),torch.float32,256,-5.605577,10.417752,-38.787296,20.266151
+backbone.layer3.0.bn1.running_var,torch.Size([256]),torch.float32,256,259.299011,91.109070,86.903725,780.737122
+backbone.layer3.0.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.0.conv2.weight,"torch.Size([256, 256, 3, 3])",torch.float32,589824,-0.002493,0.222571,-2.931788,2.725861
+backbone.layer3.0.bn2.weight,torch.Size([256]),torch.float32,256,2.018894,0.494516,1.321466,4.923236
+backbone.layer3.0.bn2.bias,torch.Size([256]),torch.float32,256,0.912439,2.230985,-4.486945,7.702912
+backbone.layer3.0.bn2.running_mean,torch.Size([256]),torch.float32,256,-1.622106,6.745649,-27.218428,15.497304
+backbone.layer3.0.bn2.running_var,torch.Size([256]),torch.float32,256,176.840332,67.928093,81.066437,525.162048
+backbone.layer3.0.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.0.conv3.weight,"torch.Size([1024, 256, 1, 1])",torch.float32,262144,-0.000335,0.236993,-2.885020,3.473771
+backbone.layer3.0.bn3.weight,torch.Size([1024]),torch.float32,1024,0.060344,1.995578,-4.826605,5.077714
+backbone.layer3.0.bn3.bias,torch.Size([1024]),torch.float32,1024,-1.658658,1.585955,-13.518168,3.764350
+backbone.layer3.0.bn3.running_mean,torch.Size([1024]),torch.float32,1024,-0.204502,8.726383,-29.205357,35.909657
+backbone.layer3.0.bn3.running_var,torch.Size([1024]),torch.float32,1024,33.528606,10.525257,0.000000,86.682945
+backbone.layer3.0.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.0.downsample.0.weight,"torch.Size([1024, 512, 1, 1])",torch.float32,524288,-0.008323,0.219782,-6.746955,5.359386
+backbone.layer3.0.downsample.1.weight,torch.Size([1024]),torch.float32,1024,1.760356,0.906115,0.108447,8.436894
+backbone.layer3.0.downsample.1.bias,torch.Size([1024]),torch.float32,1024,0.186030,1.518086,-9.957984,8.250584
+backbone.layer3.0.downsample.1.running_mean,torch.Size([1024]),torch.float32,1024,-5.749218,11.056458,-42.036404,59.066570
+backbone.layer3.0.downsample.1.running_var,torch.Size([1024]),torch.float32,1024,164.793732,99.917633,0.000000,1227.949341
+backbone.layer3.0.downsample.1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.1.conv1.weight,"torch.Size([256, 1024, 1, 1])",torch.float32,262144,-0.010831,0.225897,-4.463681,4.852095
+backbone.layer3.1.bn1.weight,torch.Size([256]),torch.float32,256,1.948975,0.601478,1.023962,6.244081
+backbone.layer3.1.bn1.bias,torch.Size([256]),torch.float32,256,-0.728865,1.606287,-6.958778,2.591322
+backbone.layer3.1.bn1.running_mean,torch.Size([256]),torch.float32,256,-7.152189,13.235610,-58.954781,42.929100
+backbone.layer3.1.bn1.running_var,torch.Size([256]),torch.float32,256,354.332214,187.658325,116.190475,1604.559570
+backbone.layer3.1.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.1.conv2.weight,"torch.Size([256, 256, 3, 3])",torch.float32,589824,-0.008161,0.217132,-4.434411,2.427183
+backbone.layer3.1.bn2.weight,torch.Size([256]),torch.float32,256,1.981365,0.619434,1.051240,5.823745
+backbone.layer3.1.bn2.bias,torch.Size([256]),torch.float32,256,-0.815460,1.565915,-6.048592,5.363678
+backbone.layer3.1.bn2.running_mean,torch.Size([256]),torch.float32,256,-5.694435,15.341928,-88.909332,51.047993
+backbone.layer3.1.bn2.running_var,torch.Size([256]),torch.float32,256,349.856171,126.635513,141.743713,936.852478
+backbone.layer3.1.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.1.conv3.weight,"torch.Size([1024, 256, 1, 1])",torch.float32,262144,-0.000073,0.233482,-3.824252,2.972562
+backbone.layer3.1.bn3.weight,torch.Size([1024]),torch.float32,1024,-0.033358,1.710357,-6.033793,7.744582
+backbone.layer3.1.bn3.bias,torch.Size([1024]),torch.float32,1024,-1.128429,1.625639,-12.091715,2.767747
+backbone.layer3.1.bn3.running_mean,torch.Size([1024]),torch.float32,1024,-0.017061,4.274595,-14.665404,13.152980
+backbone.layer3.1.bn3.running_var,torch.Size([1024]),torch.float32,1024,17.047260,7.781070,1.869551,64.232315
+backbone.layer3.1.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.2.conv1.weight,"torch.Size([256, 1024, 1, 1])",torch.float32,262144,-0.011991,0.222455,-4.211368,3.025728
+backbone.layer3.2.bn1.weight,torch.Size([256]),torch.float32,256,1.969877,0.519948,0.947606,4.255949
+backbone.layer3.2.bn1.bias,torch.Size([256]),torch.float32,256,-1.206281,1.510841,-7.204809,2.279328
+backbone.layer3.2.bn1.running_mean,torch.Size([256]),torch.float32,256,-10.925808,10.210535,-45.275509,42.985207
+backbone.layer3.2.bn1.running_var,torch.Size([256]),torch.float32,256,319.051941,114.722984,108.838165,908.877563
+backbone.layer3.2.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.2.conv2.weight,"torch.Size([256, 256, 3, 3])",torch.float32,589824,-0.010006,0.215367,-3.098880,2.428913
+backbone.layer3.2.bn2.weight,torch.Size([256]),torch.float32,256,1.628541,0.622144,0.681471,5.298252
+backbone.layer3.2.bn2.bias,torch.Size([256]),torch.float32,256,-0.939297,1.630349,-6.132464,3.918827
+backbone.layer3.2.bn2.running_mean,torch.Size([256]),torch.float32,256,-6.703650,10.522004,-39.107006,29.957693
+backbone.layer3.2.bn2.running_var,torch.Size([256]),torch.float32,256,261.744751,111.660744,63.370037,921.104126
+backbone.layer3.2.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.2.conv3.weight,"torch.Size([1024, 256, 1, 1])",torch.float32,262144,0.000848,0.225304,-3.325137,3.223751
+backbone.layer3.2.bn3.weight,torch.Size([1024]),torch.float32,1024,-0.031926,1.622501,-7.088824,6.819160
+backbone.layer3.2.bn3.bias,torch.Size([1024]),torch.float32,1024,-0.948451,1.334481,-12.568538,2.050569
+backbone.layer3.2.bn3.running_mean,torch.Size([1024]),torch.float32,1024,-0.017411,3.705159,-12.334100,11.519851
+backbone.layer3.2.bn3.running_var,torch.Size([1024]),torch.float32,1024,6.567177,2.091376,1.039554,19.832998
+backbone.layer3.2.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.3.conv1.weight,"torch.Size([256, 1024, 1, 1])",torch.float32,262144,-0.013180,0.223354,-2.921085,2.697732
+backbone.layer3.3.bn1.weight,torch.Size([256]),torch.float32,256,1.892964,0.479475,0.915193,3.717673
+backbone.layer3.3.bn1.bias,torch.Size([256]),torch.float32,256,-1.463668,1.534364,-6.906495,1.877509
+backbone.layer3.3.bn1.running_mean,torch.Size([256]),torch.float32,256,-14.548275,9.261425,-35.805305,19.353447
+backbone.layer3.3.bn1.running_var,torch.Size([256]),torch.float32,256,351.306091,118.669472,111.803299,805.145081
+backbone.layer3.3.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.3.conv2.weight,"torch.Size([256, 256, 3, 3])",torch.float32,589824,-0.010200,0.214810,-2.090542,2.105111
+backbone.layer3.3.bn2.weight,torch.Size([256]),torch.float32,256,1.808786,0.664583,0.865568,6.184039
+backbone.layer3.3.bn2.bias,torch.Size([256]),torch.float32,256,-0.798886,1.594590,-6.204421,4.986640
+backbone.layer3.3.bn2.running_mean,torch.Size([256]),torch.float32,256,-4.650910,9.965608,-46.019703,41.253735
+backbone.layer3.3.bn2.running_var,torch.Size([256]),torch.float32,256,184.933289,129.523560,54.110489,1403.503906
+backbone.layer3.3.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.3.conv3.weight,"torch.Size([1024, 256, 1, 1])",torch.float32,262144,-0.000196,0.224267,-2.400862,2.902946
+backbone.layer3.3.bn3.weight,torch.Size([1024]),torch.float32,1024,-0.057149,1.814195,-7.438768,5.373756
+backbone.layer3.3.bn3.bias,torch.Size([1024]),torch.float32,1024,-1.391433,1.902416,-16.973696,2.097079
+backbone.layer3.3.bn3.running_mean,torch.Size([1024]),torch.float32,1024,-0.139082,4.273076,-16.576126,12.464580
+backbone.layer3.3.bn3.running_var,torch.Size([1024]),torch.float32,1024,8.871262,2.864956,2.533471,25.459930
+backbone.layer3.3.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.4.conv1.weight,"torch.Size([256, 1024, 1, 1])",torch.float32,262144,-0.012016,0.229687,-2.946917,2.493228
+backbone.layer3.4.bn1.weight,torch.Size([256]),torch.float32,256,1.899155,0.440082,0.981242,4.411247
+backbone.layer3.4.bn1.bias,torch.Size([256]),torch.float32,256,-1.615261,1.502459,-9.253323,1.950580
+backbone.layer3.4.bn1.running_mean,torch.Size([256]),torch.float32,256,-14.040009,8.735492,-41.107910,19.551542
+backbone.layer3.4.bn1.running_var,torch.Size([256]),torch.float32,256,301.703369,99.657005,85.808876,781.097107
+backbone.layer3.4.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.4.conv2.weight,"torch.Size([256, 256, 3, 3])",torch.float32,589824,-0.010426,0.213854,-2.803801,2.560255
+backbone.layer3.4.bn2.weight,torch.Size([256]),torch.float32,256,1.930245,0.630460,1.042594,4.507629
+backbone.layer3.4.bn2.bias,torch.Size([256]),torch.float32,256,-0.421606,1.962213,-5.346732,5.105374
+backbone.layer3.4.bn2.running_mean,torch.Size([256]),torch.float32,256,-4.424486,8.507196,-47.745476,37.822590
+backbone.layer3.4.bn2.running_var,torch.Size([256]),torch.float32,256,143.138962,62.834240,54.785900,432.857422
+backbone.layer3.4.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.4.conv3.weight,"torch.Size([1024, 256, 1, 1])",torch.float32,262144,-0.000807,0.230512,-2.141920,2.760601
+backbone.layer3.4.bn3.weight,torch.Size([1024]),torch.float32,1024,0.011346,1.855579,-4.864484,5.002139
+backbone.layer3.4.bn3.bias,torch.Size([1024]),torch.float32,1024,-1.627270,1.855865,-12.349669,2.614677
+backbone.layer3.4.bn3.running_mean,torch.Size([1024]),torch.float32,1024,-0.257235,6.043570,-19.306074,24.454035
+backbone.layer3.4.bn3.running_var,torch.Size([1024]),torch.float32,1024,15.045763,4.404611,4.308422,38.087597
+backbone.layer3.4.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.5.conv1.weight,"torch.Size([256, 1024, 1, 1])",torch.float32,262144,-0.014207,0.231473,-2.761664,2.969027
+backbone.layer3.5.bn1.weight,torch.Size([256]),torch.float32,256,1.781769,0.443708,0.741360,3.525100
+backbone.layer3.5.bn1.bias,torch.Size([256]),torch.float32,256,-1.845701,1.430418,-6.876036,2.281042
+backbone.layer3.5.bn1.running_mean,torch.Size([256]),torch.float32,256,-16.433054,10.632888,-46.481171,44.224537
+backbone.layer3.5.bn1.running_var,torch.Size([256]),torch.float32,256,287.313782,83.453545,114.774300,573.331665
+backbone.layer3.5.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.5.conv2.weight,"torch.Size([256, 256, 3, 3])",torch.float32,589824,-0.009016,0.212359,-2.434848,2.322592
+backbone.layer3.5.bn2.weight,torch.Size([256]),torch.float32,256,1.909835,0.554707,1.086740,5.151955
+backbone.layer3.5.bn2.bias,torch.Size([256]),torch.float32,256,-0.281042,1.729717,-6.478610,7.748384
+backbone.layer3.5.bn2.running_mean,torch.Size([256]),torch.float32,256,-3.383182,6.263313,-28.794306,17.514484
+backbone.layer3.5.bn2.running_var,torch.Size([256]),torch.float32,256,95.288345,30.497602,38.496922,237.005264
+backbone.layer3.5.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer3.5.conv3.weight,"torch.Size([1024, 256, 1, 1])",torch.float32,262144,0.000078,0.233956,-2.771959,2.270149
+backbone.layer3.5.bn3.weight,torch.Size([1024]),torch.float32,1024,0.032366,1.801768,-4.952299,5.884976
+backbone.layer3.5.bn3.bias,torch.Size([1024]),torch.float32,1024,-1.394667,1.630378,-8.593946,2.081782
+backbone.layer3.5.bn3.running_mean,torch.Size([1024]),torch.float32,1024,-0.042108,5.780039,-16.530365,17.187069
+backbone.layer3.5.bn3.running_var,torch.Size([1024]),torch.float32,1024,17.472153,5.843732,3.202658,57.874386
+backbone.layer3.5.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.0.conv1.weight,"torch.Size([512, 1024, 1, 1])",torch.float32,524288,-0.013506,0.233953,-4.293730,3.049859
+backbone.layer4.0.bn1.weight,torch.Size([512]),torch.float32,512,1.765266,0.354246,0.746916,3.687506
+backbone.layer4.0.bn1.bias,torch.Size([512]),torch.float32,512,-2.065966,1.028341,-5.968512,1.686650
+backbone.layer4.0.bn1.running_mean,torch.Size([512]),torch.float32,512,-16.405651,9.175461,-41.216129,45.698112
+backbone.layer4.0.bn1.running_var,torch.Size([512]),torch.float32,512,302.767578,97.062363,79.413429,1269.529907
+backbone.layer4.0.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.0.conv2.weight,"torch.Size([512, 512, 3, 3])",torch.float32,2359296,-0.011177,0.198007,-4.447512,3.291297
+backbone.layer4.0.bn2.weight,torch.Size([512]),torch.float32,512,2.158360,0.551538,1.081878,7.799710
+backbone.layer4.0.bn2.bias,torch.Size([512]),torch.float32,512,-0.588282,1.543391,-10.687160,10.091047
+backbone.layer4.0.bn2.running_mean,torch.Size([512]),torch.float32,512,-7.410829,5.067358,-32.705097,15.509413
+backbone.layer4.0.bn2.running_var,torch.Size([512]),torch.float32,512,160.392136,59.500694,74.205818,779.195068
+backbone.layer4.0.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.0.conv3.weight,"torch.Size([2048, 512, 1, 1])",torch.float32,1048576,-0.000769,0.226681,-4.595874,3.729954
+backbone.layer4.0.bn3.weight,torch.Size([2048]),torch.float32,2048,0.042076,1.477737,-3.213640,2.916870
+backbone.layer4.0.bn3.bias,torch.Size([2048]),torch.float32,2048,-1.957868,1.053094,-8.877150,0.775321
+backbone.layer4.0.bn3.running_mean,torch.Size([2048]),torch.float32,2048,-0.307412,11.163566,-31.933666,31.300800
+backbone.layer4.0.bn3.running_var,torch.Size([2048]),torch.float32,2048,33.053558,11.006927,0.000000,249.326263
+backbone.layer4.0.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.0.downsample.0.weight,"torch.Size([2048, 1024, 1, 1])",torch.float32,2097152,-0.018570,0.210421,-4.370110,3.184306
+backbone.layer4.0.downsample.1.weight,torch.Size([2048]),torch.float32,2048,1.543581,0.370976,-0.037525,3.662606
+backbone.layer4.0.downsample.1.bias,torch.Size([2048]),torch.float32,2048,-1.777445,0.922292,-6.395642,3.159913
+backbone.layer4.0.downsample.1.running_mean,torch.Size([2048]),torch.float32,2048,-14.796724,7.326315,-38.014503,42.413254
+backbone.layer4.0.downsample.1.running_var,torch.Size([2048]),torch.float32,2048,175.612030,105.864464,0.000000,1516.501099
+backbone.layer4.0.downsample.1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.1.conv1.weight,"torch.Size([512, 2048, 1, 1])",torch.float32,1048576,-0.022036,0.211962,-2.914531,4.023370
+backbone.layer4.1.bn1.weight,torch.Size([512]),torch.float32,512,2.102627,0.532116,0.934431,5.369577
+backbone.layer4.1.bn1.bias,torch.Size([512]),torch.float32,512,-1.157533,0.905172,-5.280059,3.559460
+backbone.layer4.1.bn1.running_mean,torch.Size([512]),torch.float32,512,-5.127831,2.389153,-15.250333,4.186078
+backbone.layer4.1.bn1.running_var,torch.Size([512]),torch.float32,512,73.110962,24.346403,37.325016,231.926224
+backbone.layer4.1.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.1.conv2.weight,"torch.Size([512, 512, 3, 3])",torch.float32,2359296,-0.017125,0.193540,-2.937696,2.514949
+backbone.layer4.1.bn2.weight,torch.Size([512]),torch.float32,512,1.774922,0.453091,0.773296,4.811666
+backbone.layer4.1.bn2.bias,torch.Size([512]),torch.float32,512,-1.432067,1.140669,-8.053884,3.912325
+backbone.layer4.1.bn2.running_mean,torch.Size([512]),torch.float32,512,-14.483368,10.244203,-58.218426,60.079174
+backbone.layer4.1.bn2.running_var,torch.Size([512]),torch.float32,512,415.534241,193.348373,198.287537,2005.351318
+backbone.layer4.1.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.1.conv3.weight,"torch.Size([2048, 512, 1, 1])",torch.float32,1048576,0.000836,0.220259,-3.381460,3.234486
+backbone.layer4.1.bn3.weight,torch.Size([2048]),torch.float32,2048,-0.044050,1.211263,-4.145150,2.847014
+backbone.layer4.1.bn3.bias,torch.Size([2048]),torch.float32,2048,-1.770555,0.683709,-7.260607,0.157998
+backbone.layer4.1.bn3.running_mean,torch.Size([2048]),torch.float32,2048,0.096920,3.130656,-14.894621,17.437868
+backbone.layer4.1.bn3.running_var,torch.Size([2048]),torch.float32,2048,11.549089,5.391781,2.943017,94.481766
+backbone.layer4.1.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.2.conv1.weight,"torch.Size([512, 2048, 1, 1])",torch.float32,1048576,-0.028086,0.186750,-3.162894,3.107109
+backbone.layer4.2.bn1.weight,torch.Size([512]),torch.float32,512,1.829116,0.687987,0.586204,7.821412
+backbone.layer4.2.bn1.bias,torch.Size([512]),torch.float32,512,-1.615249,1.115415,-9.558449,1.662259
+backbone.layer4.2.bn1.running_mean,torch.Size([512]),torch.float32,512,-6.679287,3.329376,-14.911634,15.546267
+backbone.layer4.2.bn1.running_var,torch.Size([512]),torch.float32,512,77.286621,44.609848,35.211647,575.731079
+backbone.layer4.2.bn1.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.2.conv2.weight,"torch.Size([512, 512, 3, 3])",torch.float32,2359296,-0.020640,0.171867,-3.325460,2.227745
+backbone.layer4.2.bn2.weight,torch.Size([512]),torch.float32,512,1.640928,0.866159,0.618664,6.477197
+backbone.layer4.2.bn2.bias,torch.Size([512]),torch.float32,512,-1.358433,1.499849,-7.620630,4.614563
+backbone.layer4.2.bn2.running_mean,torch.Size([512]),torch.float32,512,-8.079035,4.534025,-31.631344,6.637254
+backbone.layer4.2.bn2.running_var,torch.Size([512]),torch.float32,512,170.069962,122.563156,61.376030,1158.653687
+backbone.layer4.2.bn2.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+backbone.layer4.2.conv3.weight,"torch.Size([2048, 512, 1, 1])",torch.float32,1048576,-0.000481,0.204030,-4.031397,2.745769
+backbone.layer4.2.bn3.weight,torch.Size([2048]),torch.float32,2048,0.004986,1.147513,-3.932638,4.724165
+backbone.layer4.2.bn3.bias,torch.Size([2048]),torch.float32,2048,-1.364744,0.609791,-8.598637,-0.157699
+backbone.layer4.2.bn3.running_mean,torch.Size([2048]),torch.float32,2048,0.048890,1.481097,-11.073898,10.472815
+backbone.layer4.2.bn3.running_var,torch.Size([2048]),torch.float32,2048,3.924000,1.131953,0.191985,11.561058
+backbone.layer4.2.bn3.num_batches_tracked,torch.Size([]),torch.int64,1,377059.000000,nan,377059.000000,377059.000000
+classifier.1.weight,"torch.Size([512, 2048])",torch.float32,1048576,0.000984,0.034577,-0.185476,0.216986
+classifier.1.bias,torch.Size([512]),torch.float32,512,0.005880,0.015261,-0.032735,0.043573
+classifier.4.weight,"torch.Size([196, 512])",torch.float32,100352,-0.022336,0.051208,-0.323538,0.133465
+classifier.4.bias,torch.Size([196]),torch.float32,196,0.002147,0.027512,-0.060251,0.056961
