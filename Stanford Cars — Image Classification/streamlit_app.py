@@ -1,6 +1,23 @@
 """
 Streamlit Web App for Stanford Cars Classification
 """
+# ============================================================================
+# Python 3.14 Compatibility Patch for Altair
+# ============================================================================
+# Altair 5.5.0 uses TypedDict with 'closed=True' parameter which isn't
+# fully supported in Python 3.14 yet. This patch allows it to work.
+import sys
+if sys.version_info >= (3, 14):
+    from typing import _TypedDictMeta
+    _original_new = _TypedDictMeta.__new__
+    
+    def _patched_new(mcs, name, bases, ns, total=True, **kwargs):
+        # Remove unsupported 'closed' parameter
+        kwargs.pop('closed', None)
+        return _original_new(mcs, name, bases, ns, total=total)
+    
+    _TypedDictMeta.__new__ = staticmethod(_patched_new)
+
 import streamlit as st
 import torch
 import torch.nn.functional as F
@@ -427,6 +444,66 @@ def create_class_distribution_chart(train_df: pd.DataFrame) -> alt.Chart:
     )
     return chart
 
+def create_full_class_distribution_analysis_chart(train_df: pd.DataFrame) -> alt.Chart:
+    """Create class distribution analysis chart for all 196 classes"""
+    if train_df.empty:
+        return None
+    
+    class_counts = train_df['class_name'].value_counts().sort_index().reset_index()
+    class_counts.columns = ['class_name', 'count']
+    class_counts['class_index'] = range(len(class_counts))
+    
+    # Calculate statistics for reference lines
+    mean_count = class_counts['count'].mean()
+    max_count = class_counts['count'].max()
+    min_count = class_counts['count'].min()
+    
+    # Create base chart with bars
+    base = alt.Chart(class_counts).encode(
+        x=alt.X('class_index:Q', title='Class Index (All 196 Classes)', axis=alt.Axis(format='.0f')),
+        y=alt.Y('count:Q', title='Number of Training Images', axis=alt.Axis(format='.0f')),
+    )
+    
+    bars = base.mark_bar(
+        color=CHART_COLORS['primary'],
+        opacity=0.7,
+        cornerRadiusTopLeft=2,
+        cornerRadiusTopRight=2,
+    ).encode(
+        tooltip=[
+            alt.Tooltip('class_name:N', title='Class'),
+            alt.Tooltip('count:Q', title='Images', format='.0f'),
+            alt.Tooltip('class_index:Q', title='Class Index', format='.0f'),
+        ],
+    )
+    
+    # Create reference lines
+    mean_line = alt.Chart(pd.DataFrame({'y': [mean_count]})).mark_rule(
+        color='red',
+        strokeDash=[5, 5],
+        strokeWidth=2
+    ).encode(y='y:Q')
+    
+    max_line = alt.Chart(pd.DataFrame({'y': [max_count]})).mark_rule(
+        color='green',
+        strokeDash=[3, 3],
+        strokeWidth=1.5
+    ).encode(y='y:Q')
+    
+    min_line = alt.Chart(pd.DataFrame({'y': [min_count]})).mark_rule(
+        color='orange',
+        strokeDash=[3, 3],
+        strokeWidth=1.5
+    ).encode(y='y:Q')
+    
+    # Combine all layers
+    chart = (bars + mean_line + max_line + min_line).properties(
+        height=400,
+        title='Class Distribution Analysis - All 196 Classes'
+    ).configure_axis(grid=True, gridOpacity=0.2)
+    
+    return chart
+
 
 def analyze_class_balance(train_df: pd.DataFrame) -> Dict[str, any]:
     """Analyze dataset class balance/imbalance"""
@@ -467,15 +544,7 @@ def analyze_class_balance(train_df: pd.DataFrame) -> Dict[str, any]:
     }
 
 st.title('Stanford Cars Classifier')
-st.markdown(
-    """
-    <div style='text-align: center; padding: 1rem 0; color: #666; font-size: 1.1rem;'>
-    An interactive end-to-end report for data quality, modeling, and live inference
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-st.divider()
+
 
 with st.expander("Key Statistics Overview", expanded=True):
     st.caption("High-level insights about the Stanford Cars dataset.")
@@ -495,16 +564,17 @@ with st.expander("Key Statistics Overview", expanded=True):
     col1, col2 = st.columns([2, 1], gap="medium")
     with col1:
         with st.container(border=True, height="stretch"):
-            st.subheader("Top 10 Most Represented Classes (Train)")
+            st.subheader("All 196 Classes Distribution (Train)")
             if not train_df.empty:
-                top10 = (
+                all_classes = (
                     train_df['class_name']
                     .value_counts()
-                    .head(10)
+                    .sort_index()
                     .reset_index()
                 )
-                top10.columns = ['Class', 'Train Images']
-                st.dataframe(top10, use_container_width=True, height=360)
+                all_classes.columns = ['Class', 'Train Images']
+                st.dataframe(all_classes, use_container_width=True, height=600)
+                st.caption(f"Total: {len(all_classes)} classes, {all_classes['Train Images'].sum():,} training images")
             else:
                 st.info("Training annotations not found.")
 
@@ -519,9 +589,72 @@ with st.expander("Key Statistics Overview", expanded=True):
                 st.info("Resolution statistics will appear once the dataset is available.")
 
     st.subheader("Dataset Artifacts")
+    
+    # Class Distribution Analysis Chart
+    with st.container(border=True):
+        st.markdown("### Class Distribution Analysis - All 196 Classes")
+        if not train_df.empty:
+            dist_analysis_chart = create_full_class_distribution_analysis_chart(train_df)
+            if dist_analysis_chart:
+                st.altair_chart(dist_analysis_chart, use_container_width=True)
+                
+                # Balance Analysis and Conclusion
+                balance_stats = analyze_class_balance(train_df)
+                if balance_stats:
+                    col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
+                    with col_stat1:
+                        st.metric("Min Samples", f"{int(balance_stats['min_samples'])}")
+                    with col_stat2:
+                        st.metric("Max Samples", f"{int(balance_stats['max_samples'])}")
+                    with col_stat3:
+                        st.metric("Mean Samples", f"{balance_stats['mean_samples']:.1f}")
+                    with col_stat4:
+                        st.metric("Imbalance Ratio", f"{balance_stats['imbalance_ratio']:.2f}x")
+                    
+                    st.divider()
+                    
+                    # Balance Conclusion
+                    imbalance_ratio = balance_stats['imbalance_ratio']
+                    if imbalance_ratio < 1.5:
+                        balance_status = "WELL BALANCED"
+                        balance_desc = "Dataset is relatively balanced across all 196 classes. All classes have similar sample counts."
+                        balance_color = "success"
+                    elif imbalance_ratio < 3.0:
+                        balance_status = "MODERATELY IMBALANCED"
+                        balance_desc = f"Dataset shows moderate imbalance (ratio: {imbalance_ratio:.2f}x). Some classes have fewer samples but still acceptable for training. Using weighted loss function helps handle this imbalance."
+                        balance_color = "warning"
+                    else:
+                        balance_status = "❌ SIGNIFICANTLY IMBALANCED"
+                        balance_desc = f"Dataset shows significant imbalance (ratio: {imbalance_ratio:.2f}x). Consider using class-weighted loss or data augmentation techniques."
+                        balance_color = "error"
+                    
+                    st.markdown(f"#### {balance_status}")
+                    st.markdown(f"**Conclusion:** {balance_desc}")
+                    
+                    # Additional statistics
+                    st.markdown("**Detailed Statistics:**")
+                    stats_text = f"""
+                    - **Total Training Images**: {balance_stats['total_samples']:,}
+                    - **Total Classes**: {balance_stats['num_classes']}
+                    - **Median Samples/Class**: {balance_stats['median_samples']:.1f}
+                    - **Standard Deviation**: {balance_stats['std_samples']:.2f}
+                    - **Coefficient of Variation**: {balance_stats['coefficient_variation']:.3f}
+                    - **Classes below 50% of mean**: {balance_stats['imbalanced_classes']} ({balance_stats['imbalance_percentage']:.1f}%)
+                    """
+                    st.markdown(stats_text)
+                    
+                    # Legend for chart
+                    st.caption("📊 Chart Legend: Red dashed line = Mean, Green dashed line = Max, Orange dashed line = Min")
+            else:
+                st.info("Class distribution chart not available.")
+        else:
+            st.info("Training data not available for distribution analysis.")
+    
+    # Additional charts in columns
     col_a, col_b = st.columns(2, gap="medium")
     with col_a:
         with st.container(border=True, height="stretch"):
+            st.markdown("### Top 30 Classes by Sample Count")
             class_dist_chart = create_class_distribution_chart(train_df)
             if class_dist_chart:
                 st.altair_chart(class_dist_chart, use_container_width=True)
@@ -529,6 +662,7 @@ with st.expander("Key Statistics Overview", expanded=True):
                 st.info("Class distribution data not available.")
     with col_b:
         with st.container(border=True, height="stretch"):
+            st.markdown("### Top 30 Classes by F1 Score")
             report_df = load_classification_report_df()
             f1_chart = create_f1_score_chart(report_df)
             if f1_chart:
@@ -1126,6 +1260,281 @@ for epoch in range(num_epochs):
         else:
             st.info("Classification report JSON not found.")
 
+with st.expander("Model Performance Comparison"):
+    st.caption("Compare top-performing vs challenging classes to identify improvement areas.")
+    
+    report_df = load_classification_report_df()
+    if not report_df.empty:
+        col1, col2 = st.columns(2, gap="large")
+        
+        with col1:
+            st.markdown("### 🏆 Top 15 Performing Classes")
+            top_classes = report_df.nlargest(15, 'f1-score')[['class_name', 'f1-score', 'precision', 'recall', 'support']]
+            st.dataframe(
+                top_classes,
+                use_container_width=True,
+                hide_index=True,
+                column_config={
+                    "class_name": st.column_config.TextColumn("Car Class", width="large"),
+                    "f1-score": st.column_config.NumberColumn("F1 Score", format="%.3f"),
+                    "precision": st.column_config.NumberColumn("Precision", format="%.3f"),
+                    "recall": st.column_config.NumberColumn("Recall", format="%.3f"),
+                    "support": st.column_config.NumberColumn("Samples", format="%d"),
+                }
+            )
+        
+        with col2:
+            st.markdown("### ⚠️ Challenging Classes (Lowest F1)")
+            bottom_classes = report_df.nsmallest(15, 'f1-score')[['class_name', 'f1-score', 'precision', 'recall', 'support']]
+            st.dataframe(
+                bottom_classes,
+                use_container_width=True,
+                hide_index=True,
+                column_config={
+                    "class_name": st.column_config.TextColumn("Car Class", width="large"),
+                    "f1-score": st.column_config.NumberColumn("F1 Score", format="%.3f"),
+                    "precision": st.column_config.NumberColumn("Precision", format="%.3f"),
+                    "recall": st.column_config.NumberColumn("Recall", format="%.3f"),
+                    "support": st.column_config.NumberColumn("Samples", format="%d"),
+                }
+            )
+        
+        st.divider()
+        
+        # F1 Score Distribution
+        st.markdown("### F1 Score Distribution Across All 196 Classes")
+        f1_dist_chart = (
+            alt.Chart(report_df)
+            .mark_bar(
+                color=CHART_COLORS['primary'],
+                opacity=0.7,
+                cornerRadiusTopLeft=3,
+                cornerRadiusTopRight=3,
+            )
+            .encode(
+                x=alt.X(
+                    'f1-score:Q',
+                    bin=alt.Bin(maxbins=40),
+                    title='F1 Score Range',
+                    axis=alt.Axis(format='.2f')
+                ),
+                y=alt.Y('count()', title='Number of Classes'),
+                tooltip=[
+                    alt.Tooltip('f1-score:Q', bin=True, title='F1 Score Range'),
+                    alt.Tooltip('count()', title='Class Count', format='.0f'),
+                ],
+            )
+            .properties(height=350, title='F1 Score Distribution')
+            .configure_axis(grid=True, gridOpacity=0.2)
+        )
+        st.altair_chart(f1_dist_chart, use_container_width=True)
+        
+        # Summary Statistics
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric(
+                "Mean F1 Score",
+                f"{report_df['f1-score'].mean():.3f}",
+                help="Average F1 across all 196 classes"
+            )
+        with col2:
+            st.metric(
+                "Median F1 Score",
+                f"{report_df['f1-score'].median():.3f}",
+                help="Median F1 score"
+            )
+        with col3:
+            st.metric(
+                "Min F1 Score",
+                f"{report_df['f1-score'].min():.3f}",
+                help="Lowest F1 among classes"
+            )
+        with col4:
+            st.metric(
+                "Max F1 Score",
+                f"{report_df['f1-score'].max():.3f}",
+                help="Highest F1 among classes"
+            )
+    else:
+        st.info("Classification report not available.")
+
+with st.expander("Advanced Analysis"):
+    st.caption("Detailed per-class metrics, sample exploration, and model internals.")
+    
+    (
+        tab_class_details,
+        tab_sample_explorer,
+        tab_model_insights,
+    ) = st.tabs(
+        [
+            "1. Per-Class Metrics",
+            "2. Sample Explorer by Class",
+            "3. Model Insights",
+        ]
+    )
+    
+    with tab_class_details:
+        st.subheader("Detailed Per-Class Performance")
+        report_df = load_classification_report_df()
+        if not report_df.empty:
+            # Add performance tier
+            report_df['Tier'] = pd.cut(
+                report_df['f1-score'],
+                bins=[0, 0.80, 0.90, 1.0],
+                labels=['Below 0.80', '0.80-0.90', 'Above 0.90'],
+                include_lowest=True
+            )
+            
+            search_col, metric_col = st.columns([2, 1])
+            with search_col:
+                search_term = st.text_input("🔍 Search class by name", placeholder="e.g., BMW, Tesla...")
+            with metric_col:
+                sort_metric = st.selectbox("Sort by", options=['f1-score', 'precision', 'recall', 'support'])
+            
+            # Filter and sort
+            if search_term:
+                filtered_df = report_df[report_df['class_name'].str.contains(search_term, case=False, na=False)]
+            else:
+                filtered_df = report_df
+            
+            filtered_df = filtered_df.sort_values(sort_metric, ascending=False)
+            
+            st.markdown(f"**Found {len(filtered_df)} classes**")
+            st.dataframe(
+                filtered_df[['class_name', 'f1-score', 'precision', 'recall', 'support', 'Tier']],
+                use_container_width=True,
+                height=400,
+                column_config={
+                    "class_name": st.column_config.TextColumn("Car Class", width="large"),
+                    "f1-score": st.column_config.NumberColumn("F1 Score", format="%.3f"),
+                    "precision": st.column_config.NumberColumn("Precision", format="%.3f"),
+                    "recall": st.column_config.NumberColumn("Recall", format="%.3f"),
+                    "support": st.column_config.NumberColumn("Samples", format="%d"),
+                    "Tier": st.column_config.TextColumn("Performance Tier"),
+                },
+            )
+        else:
+            st.info("Classification report not available.")
+    
+    with tab_sample_explorer:
+        st.subheader("Browse Sample Images & Performance by Class")
+        report_df = load_classification_report_df()
+        train_df = load_annotations_df('train')
+        
+        if not report_df.empty and not train_df.empty:
+            # Filter classes by performance tier
+            perf_tier = st.radio(
+                "Filter by performance tier:",
+                options=['All', 'High (F1 > 0.90)', 'Medium (0.80-0.90)', 'Low (F1 < 0.80)'],
+                horizontal=True
+            )
+            
+            if perf_tier == 'High (F1 > 0.90)':
+                filtered_classes = report_df[report_df['f1-score'] > 0.90]['class_name'].tolist()
+            elif perf_tier == 'Medium (0.80-0.90)':
+                filtered_classes = report_df[(report_df['f1-score'] >= 0.80) & (report_df['f1-score'] <= 0.90)]['class_name'].tolist()
+            elif perf_tier == 'Low (F1 < 0.80)':
+                filtered_classes = report_df[report_df['f1-score'] < 0.80]['class_name'].tolist()
+            else:
+                filtered_classes = CLASS_NAMES
+            
+            selected_class = st.selectbox(
+                "Select a class to explore:",
+                options=filtered_classes,
+                index=0 if len(filtered_classes) > 0 else None
+            )
+            
+            if selected_class:
+                # Show class metrics
+                class_metrics = report_df[report_df['class_name'] == selected_class].iloc[0]
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    st.metric("F1 Score", f"{class_metrics['f1-score']:.3f}")
+                with col2:
+                    st.metric("Precision", f"{class_metrics['precision']:.3f}")
+                with col3:
+                    st.metric("Recall", f"{class_metrics['recall']:.3f}")
+                with col4:
+                    st.metric("Samples", f"{int(class_metrics['support'])}")
+                
+                st.divider()
+                
+                # Show sample images
+                st.markdown(f"### Sample Images from {selected_class}")
+                num_images = st.slider("Number of samples to show", min_value=3, max_value=12, value=6, step=3)
+                render_sample_gallery(selected_class, num_images=num_images)
+        else:
+            st.info("Sample explorer requires classification report and training data.")
+    
+    with tab_model_insights:
+        st.subheader("Model Architecture & Feature Extraction")
+        
+        # Feature Extraction Pipeline Visualization
+        st.markdown("### ResNet50 Feature Extraction Pipeline")
+        st.markdown("""
+        The model extracts features through progressive abstraction levels:
+        """)
+        
+        pipeline_data = pd.DataFrame({
+            'Stage': ['Input', 'Conv1 + MaxPool', 'Layer1', 'Layer2', 'Layer3', 'Layer4', 'AvgPool', 'Classifier'],
+            'Shape': ['224×224×3', '56×56×64', '56×56×256', '28×28×512', '14×14×1024', '7×7×2048', '2048', '196'],
+            'Purpose': [
+                'Raw RGB Image',
+                'Edge Detection',
+                'Texture Patterns',
+                'Car Parts',
+                'Components',
+                'Semantic Features',
+                'Feature Vector',
+                'Class Prediction'
+            ]
+        })
+        
+        st.dataframe(
+            pipeline_data,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                'Stage': st.column_config.TextColumn('Stage', width='medium'),
+                'Shape': st.column_config.TextColumn('Tensor Shape', width='medium'),
+                'Purpose': st.column_config.TextColumn('Learned Features', width='large'),
+            }
+        )
+        
+        st.markdown("### Key Insights")
+        insights_text = """
+        **Transfer Learning Benefits:**
+        - ResNet50 backbone pretrained on ImageNet (1.2M images, 1000 classes)
+        - Early layers learn generic visual features (edges, colors, textures)
+        - Deep layers adapt to fine-grained car classification during training
+        
+        **Architecture Details:**
+        - Total Parameters: ~24.7M (25.9M with classifier head)
+        - Trainable: All 25.9M parameters fine-tuned for cars
+        - Global Average Pooling: Spatially robust, size-agnostic features
+        - Classifier Head: 2048 → 512 → 196 (with dropout regularization)
+        
+        **Training Strategy:**
+        - Optimizer: AdamW with weight decay (L2 regularization)
+        - Scheduler: OneCycleLR (warm-up + cosine decay)
+        - Loss: CrossEntropyLoss with class weights for balance
+        - Batch Size: 96 | Learning Rate: 1e-3 max | Epochs: 24
+        - Early Stopping: 5 epochs patience
+        
+        **Performance:**
+        - Top-1 Accuracy: 86.25% on validation set
+        - Top-5 Accuracy: 97.71% (very high confidence in top predictions)
+        - F1 Macro: 0.8601 (balanced across all 196 classes)
+        - All 196 classes present in training and validation
+        """
+        st.markdown(insights_text)
+        
+        display_image_if_exists(
+            AUGMENTATION_IMG,
+            "Data Augmentation Examples",
+            "Shows how images are transformed during training for better generalization"
+        )
+
 with st.expander("Live Prediction"):
     st.caption("Upload a car image to classify it into one of 196 fine-grained categories.")
 
@@ -1249,5 +1658,26 @@ with st.expander("Live Prediction"):
 - **Global Avg Pooling**: Spatially aggregates features for robustness
 - **Dropout Regularization**: Prevents overfitting on 196 classes
 - **Stratified Training**: All classes equally represented
+- **Class Imbalance Handling**: Weighted loss ensures underrepresented classes contribute equally
         """
         st.markdown(features_text)
+        
+        st.divider()
+        st.markdown("### Why This Approach Works")
+        why_text = """
+        **Fine-Grained Classification Challenge:**
+        - 196 car classes are visually similar (different model years, trims of same make)
+        - Generic CNN trained on 1000 objects isn't specific enough
+        
+        **Solution: Progressive Fine-tuning:**
+        1. Start with ImageNet pretrained backbone (learns general vision)
+        2. Replace classifier head for 196 car classes
+        3. Train all layers with low learning rate (domain adaptation)
+        4. Use augmentation to prevent overfitting on similar classes
+        
+        **Result:**
+        - 86.25% accuracy on validation set
+        - 97.71% top-5 accuracy (model rarely misses true class in top 5)
+        - Balanced performance across all 196 classes (F1 = 0.8601)
+        """
+        st.markdown(why_text)
