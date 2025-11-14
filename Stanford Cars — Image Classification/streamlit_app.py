@@ -145,7 +145,7 @@ def get_val_transforms():
     ])
 
 def predict(image, model):
-    """Predict class for image"""
+    """Predict class for image - return top-1 prediction"""
     transform = get_val_transforms()
     img_np = np.array(image.convert('RGB'))
     img_tensor = transform(image=img_np)['image'].unsqueeze(0).to(device)
@@ -153,9 +153,9 @@ def predict(image, model):
     with torch.no_grad():
         output = model(img_tensor)
         probs = F.softmax(output, dim=1)
-        top5_probs, top5_indices = torch.topk(probs, k=5)
+        top_prob, top_idx = torch.max(probs, dim=1)
     
-    return top5_probs.cpu().numpy()[0], top5_indices.cpu().numpy()[0]
+    return top_prob.cpu().item(), top_idx.cpu().item(), probs.cpu().numpy()[0]
 
 
 @st.cache_data(show_spinner=False)
@@ -851,20 +851,20 @@ with st.expander("Dataset Balance Analysis"):
         with col2:
             st.markdown("### Interpretation")
             if balance_stats['imbalance_ratio'] < 1.5:
-                status = "🟢 **Well Balanced**"
+                status = "Well Balanced"
                 desc = "Dataset is relatively balanced across classes."
             elif balance_stats['imbalance_ratio'] < 3.0:
-                status = "🟡 **Moderately Imbalanced**"
+                status = "Moderately Imbalanced"
                 desc = "Some classes have fewer samples but still acceptable."
             else:
-                status = "🔴 **Significantly Imbalanced**"
+                status = "Significantly Imbalanced"
                 desc = "Notable imbalance detected; consider weighted loss."
             
-            st.markdown(f"{status}\n\n{desc}")
+            st.markdown(f"**{status}**\n\n{desc}")
             
             if balance_stats['imbalance_ratio'] >= 1.5:
                 st.info(
-                    "💡 **Recommendation**: Using weighted loss function to handle class imbalance "
+                    "Recommendation: Using weighted loss function to handle class imbalance "
                     "and ensure underrepresented classes contribute adequately to training."
                 )
     else:
@@ -1127,45 +1127,127 @@ for epoch in range(num_epochs):
             st.info("Classification report JSON not found.")
 
 with st.expander("Live Prediction"):
-    st.caption("Upload an image to get top-5 predictions with confidence scores.")
+    st.caption("Upload a car image to classify it into one of 196 fine-grained categories.")
 
-    load_status = st.empty()
-    try:
-        with st.spinner("Loading model weights..."):
-            model = load_model()
-        load_status.success("Model loaded and ready for inference.")
-    except Exception as exc:
-        load_status.error(f"Error loading model: {exc}")
-        st.stop()
+    # Tabs for different views
+    tab_predict, tab_how_it_works = st.tabs(["Predict", "How It Works"])
 
-    uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
+    with tab_predict:
+        load_status = st.empty()
+        try:
+            with st.spinner("Loading model weights..."):
+                model = load_model()
+            load_status.success("Model ready for inference")
+        except Exception as exc:
+            load_status.error(f"Error loading model: {exc}")
+            st.stop()
 
-    if uploaded_file is not None:
-        image = Image.open(uploaded_file).convert('RGB')
-        st.image(image, caption='Uploaded Image', use_container_width=True)
+        uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
 
-        with st.spinner('Classifying...'):
-            try:
-                probs, indices = predict(image, model)
-            except Exception as exc:
-                st.error(f"An error occurred during prediction: {exc}")
-                st.stop()
+        if uploaded_file is not None:
+            image = Image.open(uploaded_file).convert('RGB')
+            
+            col1, col2 = st.columns([1, 1], gap="medium")
+            with col1:
+                st.image(image, caption='Uploaded Image', use_container_width=True)
+            
+            with col2:
+                with st.spinner('Classifying...'):
+                    try:
+                        top_prob, top_idx, all_probs = predict(image, model)
+                    except Exception as exc:
+                        st.error(f"An error occurred during prediction: {exc}")
+                        st.stop()
 
-        st.subheader('Prediction Results (Top 5)')
-        for rank, (prob, idx) in enumerate(zip(probs, indices), start=1):
-            class_name = CLASS_NAMES[idx]
-            st.write(f"{rank}. **{class_name}** — {prob * 100:.2f}%")
+                top_class = CLASS_NAMES[top_idx]
+                
+                # Display main prediction
+                st.markdown("### Prediction")
+                st.metric(
+                    label=top_class,
+                    value=f"{top_prob * 100:.1f}%",
+                    help="Model confidence in this prediction"
+                )
+                
+                # Show confidence bar
+                st.markdown("##### Confidence Level:")
+                st.progress(min(top_prob, 1.0))
+                
+                if top_prob > 0.8:
+                    st.success("Very High Confidence - Model is highly certain")
+                elif top_prob > 0.6:
+                    st.info("Good Confidence - Model is reasonably certain")
+                else:
+                    st.warning("Low Confidence - Model is uncertain, consider other classes")
+            
+            st.divider()
+            
+            # Show top 5 similar classes
+            st.markdown("### Similar Classes (Top 5)")
+            top5_indices = np.argsort(all_probs)[::-1][:5]
+            top5_probs = all_probs[top5_indices]
+            
+            for rank, (prob, idx) in enumerate(zip(top5_probs, top5_indices), start=1):
+                class_name = CLASS_NAMES[idx]
+                percentage = float(prob) * 100
+                col1, col2 = st.columns([4, 1])
+                with col1:
+                    st.progress(min(float(prob), 1.0))
+                    st.caption(f"{rank}. {class_name}")
+                with col2:
+                    st.caption(f"{percentage:.1f}%")
 
-        top_class = CLASS_NAMES[indices[0]]
-        top_prob = probs[0]
-        st.success(f"**Predicted Class: {top_class}** ({top_prob * 100:.2f}% confidence)")
-
-        with st.expander("Confidence Details"):
-            confidence_df = pd.DataFrame(
-                {
-                    "Rank": np.arange(1, len(probs) + 1),
-                    "Class": [CLASS_NAMES[idx] for idx in indices],
-                    "Probability": [float(p) for p in probs],
-                }
-            )
-            st.dataframe(confidence_df, hide_index=True, use_container_width=True)
+    with tab_how_it_works:
+        st.markdown("### Prediction Pipeline")
+        
+        step_pipeline = [
+            {
+                "step": "1. Image Input",
+                "desc": "Your uploaded image is resized to 224x224 pixels and normalized with ImageNet statistics",
+                "tech": "Resize + Normalize"
+            },
+            {
+                "step": "2. Feature Extraction",
+                "desc": "ResNet50 backbone (pretrained on ImageNet) extracts 2048-dimensional feature vectors representing visual patterns unique to cars",
+                "tech": "ResNet50 Backbone"
+            },
+            {
+                "step": "3. Classification",
+                "desc": "A 3-layer classifier head processes features through dropout, linear layers, and ReLU activation to map to 196 car classes",
+                "tech": "Dense Layers (2048->512->196)"
+            },
+            {
+                "step": "4. Probability Ranking",
+                "desc": "Softmax converts classifier outputs to probabilities. The highest probability indicates the predicted class",
+                "tech": "Softmax + Top-1 Selection"
+            }
+        ]
+        
+        for item in step_pipeline:
+            with st.container(border=True):
+                st.markdown(f"**{item['step']}**")
+                st.write(item['desc'])
+                st.caption(f"Tech: {item['tech']}")
+        
+        st.divider()
+        st.markdown("### Model Architecture Summary")
+        
+        arch_cols = st.columns(4)
+        with arch_cols[0]:
+            st.metric("Input", "224x224x3", help="RGB image size")
+        with arch_cols[1]:
+            st.metric("Backbone", "ResNet50", help="50-layer CNN")
+        with arch_cols[2]:
+            st.metric("Features", "2048-dim", help="Extracted vectors")
+        with arch_cols[3]:
+            st.metric("Output", "196 classes", help="Car categories")
+        
+        st.markdown("### Key Features")
+        features_text = """
+- **Transfer Learning**: Backbone pretrained on ImageNet (1.2M images, 1000 classes)
+- **Fine-tuning**: All layers trainable for domain adaptation to cars
+- **Global Avg Pooling**: Spatially aggregates features for robustness
+- **Dropout Regularization**: Prevents overfitting on 196 classes
+- **Stratified Training**: All classes equally represented
+        """
+        st.markdown(features_text)
