@@ -115,15 +115,16 @@ Technology Stack:
     }
 )
 
-with open('class_mappings.json', 'r') as f:
-    mappings = json.load(f)
-    CLASS_NAMES = mappings['class_names']
-    idx_to_label = {int(k): v for k, v in mappings['idx_to_label'].items()}
-
 NUM_CLASSES = 196
 IMG_SIZE = (224, 224)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 BASE_DIR = Path(__file__).resolve().parent
+
+# Load class mappings using BASE_DIR for correct path resolution
+with open(BASE_DIR / 'class_mappings.json', 'r') as f:
+    mappings = json.load(f)
+    CLASS_NAMES = mappings['class_names']
+    idx_to_label = {int(k): v for k, v in mappings['idx_to_label'].items()}
 ARTIFACTS_DIR = BASE_DIR / 'artifacts'
 DATASET_DIR = BASE_DIR / 'dataset'
 DEVKIT_DIR = DATASET_DIR / 'car_devkit' / 'devkit'
