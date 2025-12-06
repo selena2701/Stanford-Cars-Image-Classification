@@ -218,6 +218,27 @@ __marimo__/
 .streamlit/secrets.toml
 .streamlit/cache/
 
+# Dataset files (too large for git)
+dataset/
+**/dataset/
+**/cars_train/
+**/cars_test/
+**/car_devkit/
+*.mat
+
+# Artifacts - Tracked by Git LFS (allow all artifacts to be committed)
+# All artifacts will be managed by Git LFS for efficient storage
+# **/artifacts/*.pth
+# **/artifacts/*.png
+# **/artifacts/*.npy
+# **/artifacts/*.json
+# **/artifacts/*.csv
+# (Commented out - Git LFS will handle these files)
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -227,13 +248,20 @@ __marimo__/
 Thumbs.db
 ehthumbs.db
 
-# PyTorch Model Files (Large)
-*.pth
-*.pt
-artifacts/*.pth
-artifacts/*.pt
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# Model Artifacts
-artifacts/best_model.pth
-artifacts/*.gz
-artifacts/*.zip
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+
