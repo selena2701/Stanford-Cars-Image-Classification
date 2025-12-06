@@ -1,0 +1,15 @@
+# Alternative package list for Streamlit Cloud deployment
+# Some platforms require packages.txt instead of requirements.txt
+
+streamlit
+torch
+torchvision
+timm
+Pillow
+albumentations
+opencv-python-headless
+numpy
+pandas
+scipy
+altair
+

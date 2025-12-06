@@ -1,0 +1,11 @@
+[theme]
+# Light theme configuration
+primaryColor = "#60a5fa"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f8fafc"
+textColor = "#1e293b"
+font = "sans serif"
+
+[server]
+# Server configuration
+headless = true

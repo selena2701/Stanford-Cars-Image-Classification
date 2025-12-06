@@ -205,3 +205,63 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+
+
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/cache/
+
+# Dataset files (too large for git)
+dataset/
+**/dataset/
+**/cars_train/
+**/cars_test/
+**/car_devkit/
+*.mat
+
+# Artifacts - Tracked by Git LFS (allow all artifacts to be committed)
+# All artifacts will be managed by Git LFS for efficient storage
+# **/artifacts/*.pth
+# **/artifacts/*.png
+# **/artifacts/*.npy
+# **/artifacts/*.json
+# **/artifacts/*.csv
+# (Commented out - Git LFS will handle these files)
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+
